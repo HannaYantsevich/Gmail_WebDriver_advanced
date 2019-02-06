@@ -2,6 +2,7 @@ package pages;
 
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class GmailLoginPage extends AbstractedPage {
     private Logger log = Logger.getLogger(GmailLoginPage.class);
 
-    private static final String URL = "https://www.google.com/gmail/about/new/";
+    private static final String URL = "https://www.google.com/intl/ru/gmail/about/#";
 
     public GmailLoginPage(WebDriver driver) {
         super(driver);
@@ -41,6 +42,7 @@ public class GmailLoginPage extends AbstractedPage {
     }
 
     public GmailPasswordPage pressNextButton() {
+        waitForElementVisible(By.id("identifierNext"));
         nextButton.click();
         return new GmailPasswordPage(driver);
 
