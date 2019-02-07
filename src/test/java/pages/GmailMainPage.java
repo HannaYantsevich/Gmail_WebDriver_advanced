@@ -15,6 +15,9 @@ public class GmailMainPage extends AbstractedPage {
     @FindBy(xpath = "//span[@class='ait']/div[@class='G-asx T-I-J3 J-J5-Ji']")
     private WebElement expandMoreButton;
 
+    @FindBy(xpath = "//a[@href='https://www.google.com/intl/en/policies/terms/']")
+    private WebElement termsEndConditionsLink;
+
     @FindBy(css = ".aic .z0 div")
     private WebElement composeButton;
 
@@ -32,7 +35,6 @@ public class GmailMainPage extends AbstractedPage {
 
     @FindBy(xpath = "//a[contains(text(), 'Drafts')]")
     private WebElement draftButton;
-
 
     @FindBy(xpath = "//div[text()='Send']")
     private WebElement sendButton;
@@ -59,7 +61,7 @@ public class GmailMainPage extends AbstractedPage {
 
 
     public GmailMainPage enterSearchFieldSpace() {
-        waitForElementPresent(searchField);
+        waitForElementVisible(searchField);
         highlightElement(driver, searchField);
         new Actions(driver).sendKeys(Keys.SPACE).build().perform();
         unhighlightElement(driver, searchField);
@@ -67,15 +69,25 @@ public class GmailMainPage extends AbstractedPage {
     }
 
     public void doubleClickMoreButton() {
-        waitForElementPresent(expandMoreButton);
+        waitForElementVisible(expandMoreButton);
         highlightElement(driver, expandMoreButton);
         new Actions(driver).doubleClick().build().perform();
         unhighlightElement(driver, expandMoreButton);
     }
 
+    public void scrollToTheBottom() {
+        scrollUsingJS();
+        new Actions(driver).doubleClick().build().perform();
+    }
+
+    public void scrollToTheTermsElement() {
+        waitForElementVisible(termsEndConditionsLink);
+        scrollUsingJJSotTheElement(termsEndConditionsLink);
+        new Actions(driver).doubleClick().build().perform();
+    }
 
     public GmailMainPage pressComposeButton() {
-        waitForElementPresent(composeButton);
+        waitForElementVisible(composeButton);
         highlightElement(driver, composeButton);
         composeButton.click();
         unhighlightElement(driver, composeButton);
@@ -83,7 +95,7 @@ public class GmailMainPage extends AbstractedPage {
     }
 
     public GmailMainPage fillRecipentInput(String recipientQuery) {
-        waitForElementVisible(By.xpath("//textarea[@name='to']"));
+        waitForElementVisible(recipientInput);
         highlightElement(driver, recipientInput);
         recipientInput.sendKeys(recipientQuery);
         unhighlightElement(driver, recipientInput);
@@ -91,7 +103,7 @@ public class GmailMainPage extends AbstractedPage {
     }
 
     public GmailMainPage fillSubjectInput(String subjectQuery) {
-        waitForElementVisible(By.xpath("//input[@name='subjectbox']"));
+        waitForElementVisible(subjectInput);
         highlightElement(driver, subjectInput);
         subjectInput.sendKeys(subjectQuery);
         unhighlightElement(driver, subjectInput);
@@ -99,19 +111,18 @@ public class GmailMainPage extends AbstractedPage {
     }
 
     public GmailMainPage fillBodyInput(String bodyQuery) {
-        waitForElementVisible(By.xpath("//div[@class='Am Al editable LW-avf']"));
+        waitForElementVisible(bodyInput);
         bodyInput.sendKeys(bodyQuery);
         return this;
     }
 
     public GmailMainPage saveAndCloseButton() {
-        waitForElementVisible(By.xpath("//td[@class='Hm']/img[@class='Ha']"));
-        saveAndClose.click();
+        waitForElementAndClick(driver, saveAndClose);
         return this;
     }
 
     public GmailMainPage clickOnDraftsLink() {
-        waitForElementAndClick(driver, By.xpath("//a[contains(text(), 'Drafts')]"));
+        waitForElementAndClick(driver, draftButton);
         draftButton.click();
         return this;
     }
@@ -128,14 +139,13 @@ public class GmailMainPage extends AbstractedPage {
 
     }
 
-
-    public GmailMainPage sendButton() {
-        sendButton.click();
+    public GmailMainPage sendEmail() {
+        waitForElementAndClick(driver, sendButton);
         return this;
     }
 
-    public GmailMainPage sentButton() {
-        sentButton.click();
+    public GmailMainPage clickOnSentLink() {
+        waitForElementAndClick(driver, sentButton);
         return this;
     }
 
@@ -144,20 +154,18 @@ public class GmailMainPage extends AbstractedPage {
         return driver.findElement(By.xpath(String.format("/descendant::span[contains(text(), '%s')][5]", emailBody))).isDisplayed();
     }
 
-    public GmailMainPage noDraftsButton() {
-        noDrafts.click();
+    public GmailMainPage openDraftEmail() {
+        waitForElementAndClick(driver, noDrafts);
         return this;
 
     }
 
-    public GmailMainPage imageButton() {
-        imageButton.click();
+    public GmailMainPage clickOnImageButton() {
+        waitForElementAndClick(driver, imageButton);
         return this;
     }
 
-    public void signOutButton() {
-        signOutButton.click();
+    public void clickOnSignOutButton() {
+        waitForElementAndClick(driver, signOutButton);
     }
-
-
 }

@@ -24,8 +24,7 @@ public class GmailPasswordPage extends AbstractedPage {
     }
 
     public GmailMainPage pressPasswordNextButton() {
-        waitForElementVisible(By.id("passwordNext"));
-        nextButton.click();
+        waitForElementAndClick(driver, nextButton);
         return new GmailMainPage(driver);
     }
 }

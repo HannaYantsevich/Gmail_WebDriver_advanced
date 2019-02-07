@@ -27,18 +27,20 @@ public class GmailTests extends BaseTest {
     }
 */
         log.info("Login into user`s account");
-        GmailLoginPage gmailloginpage = new GmailLoginPage(driver);
-        gmailloginpage.open()
+        GmailLoginPage gmailLoginPage = new GmailLoginPage(driver);
+        gmailLoginPage.open()
                 .pressSigninButton()
                 .fillEmailIInput(USER_EMAIL);
 
-        GmailPasswordPage gmailpasswordpage = gmailloginpage.pressNextButton();
-        gmailpasswordpage.fillGmailPasswordInput(USER_PASSWORD);
-        GmailMainPage gmailmainpage = gmailpasswordpage.pressPasswordNextButton();
+        GmailPasswordPage gmailPasswordPage = gmailLoginPage.pressNextButton();
+        gmailPasswordPage.fillGmailPasswordInput(USER_PASSWORD);
+        GmailMainPage gmailMainPage = gmailPasswordPage.pressPasswordNextButton();
 
         log.info("Create email and save it in drafts");
-        //gmailmainpage.doubleClickMoreButton();
-        gmailmainpage.pressComposeButton()
+        gmailMainPage.scrollToTheTermsElement();
+
+        gmailMainPage.doubleClickMoreButton();
+        gmailMainPage.pressComposeButton()
                 .fillRecipentInput(RECIPIENT_EMAIL)
                 .fillSubjectInput(EMAIL_SUBJECT)
                 .fillBodyInput(EMAIL_BODY)
@@ -47,24 +49,26 @@ public class GmailTests extends BaseTest {
 
 
         log.info("Verify that email is saved in drafts");
-        gmailmainpage.clickOnDraftEmail(EMAIL_SUBJECT);
-        Assert.assertTrue(gmailmainpage.isEmailAppearedInDrafts(EMAIL_BODY));
+        gmailMainPage.clickOnDraftEmail(EMAIL_SUBJECT);
+        Assert.assertTrue(gmailMainPage.isEmailAppearedInDrafts(EMAIL_BODY));
 
         log.info("Send email");
-        gmailmainpage.sendButton()
-                .sentButton();
+        gmailMainPage.sendEmail()
+                .clickOnSentLink();
 
         log.info("Verify that email is appeared in sent folder");
-        Assert.assertTrue(gmailmainpage.isEmailAppearedInSentFolder(EMAIL_BODY));
-        gmailmainpage.clickOnDraftsLink()
-                .noDraftsButton();
+        Assert.assertTrue(gmailMainPage.isEmailAppearedInSentFolder(EMAIL_BODY));
+
+        log.info("Verify that email disppeared from Drafts folder");
+        gmailMainPage.clickOnDraftsLink()
+                .openDraftEmail();
 
 
         log.info("Log out from user`s account");
-        gmailmainpage.enterSearchFieldSpace() //checking actions using keyboard
+        gmailMainPage.enterSearchFieldSpace() //checking actions using keyboard
 
-                .imageButton()
-                .signOutButton();
+                .clickOnImageButton()
+                .clickOnSignOutButton();
 
     }
 }
