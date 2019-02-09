@@ -34,13 +34,13 @@ public class GmailMainPage extends AbstractedPage {
     private WebElement saveAndClose;
 
     @FindBy(xpath = "//a[contains(text(), 'Drafts')]")
-    private WebElement draftButton;
+    private WebElement draftsLink;
 
     @FindBy(xpath = "//div[text()='Send']")
     private WebElement sendButton;
 
     @FindBy(xpath = "//*[@title='Sent']")
-    private WebElement sentButton;
+    private WebElement sentLink;
 
     @FindBy(xpath = "//tr[@class='TD']/td[@class='TC']")
     private WebElement noDrafts;
@@ -58,7 +58,6 @@ public class GmailMainPage extends AbstractedPage {
     public GmailMainPage(WebDriver driver) {
         super(driver);
     }
-
 
     public GmailMainPage enterSearchFieldSpace() {
         waitForElementVisible(searchField);
@@ -116,14 +115,13 @@ public class GmailMainPage extends AbstractedPage {
         return this;
     }
 
-    public GmailMainPage saveAndCloseButton() {
+    public GmailMainPage saveAndCloseEmail() {
         waitForElementAndClick(driver, saveAndClose);
         return this;
     }
 
     public GmailMainPage clickOnDraftsLink() {
-        waitForElementAndClick(driver, draftButton);
-        draftButton.click();
+        waitForElementAndClick(driver, draftsLink);
         return this;
     }
 
@@ -136,7 +134,6 @@ public class GmailMainPage extends AbstractedPage {
     public GmailMainPage clickOnDraftEmail(String emailSubject) {
         waitForElementAndClick(driver, By.xpath(String.format("./descendant::span[contains(text(), '%s')][2]", emailSubject)));
         return this;
-
     }
 
     public GmailMainPage sendEmail() {
@@ -145,7 +142,7 @@ public class GmailMainPage extends AbstractedPage {
     }
 
     public GmailMainPage clickOnSentLink() {
-        waitForElementAndClick(driver, sentButton);
+        waitForElementAndClick(driver, sentLink);
         return this;
     }
 
@@ -154,10 +151,8 @@ public class GmailMainPage extends AbstractedPage {
         return driver.findElement(By.xpath(String.format("/descendant::span[contains(text(), '%s')][5]", emailBody))).isDisplayed();
     }
 
-    public GmailMainPage openDraftEmail() {
-        waitForElementAndClick(driver, noDrafts);
-        return this;
-
+    public boolean isEmailDisappearedFromDrafts(String emailBody) {
+        return driver.findElement(By.xpath(String.format("/descendant::span[contains(text(), '%s')][1]", emailBody))).isDisplayed();
     }
 
     public GmailMainPage clickOnImageButton() {

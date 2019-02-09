@@ -78,8 +78,5 @@ public class AbstractedPage {
 
     protected void unhighlightElement(WebDriver driver, WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px'", element);
-
     }
-
-
 }

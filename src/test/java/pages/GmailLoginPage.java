@@ -25,7 +25,7 @@ public class GmailLoginPage extends AbstractedPage {
     @FindBy(id = "identifierNext")
     private WebElement nextButton;
 
-    public GmailLoginPage open() {
+    public GmailLoginPage openBaseURL() {
         driver.get(URL);
         return new GmailLoginPage(driver);
     }
@@ -45,7 +45,6 @@ public class GmailLoginPage extends AbstractedPage {
         waitForElementVisible(By.id("identifierNext"));
         nextButton.click();
         return new GmailPasswordPage(driver);
-
     }
 
 }

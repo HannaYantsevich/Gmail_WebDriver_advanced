@@ -20,7 +20,6 @@ public class GmailPasswordPage extends AbstractedPage {
         waitForElementVisible(By.xpath("//div[@class='Xb9hP']/input[@type='password']"));
         passwordInput.sendKeys(query);
         return new GmailPasswordPage(driver);
-
     }
 
     public GmailMainPage pressPasswordNextButton() {

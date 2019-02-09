@@ -28,7 +28,7 @@ public class GmailTests extends BaseTest {
 */
         log.info("Login into user`s account");
         GmailLoginPage gmailLoginPage = new GmailLoginPage(driver);
-        gmailLoginPage.open()
+        gmailLoginPage.openBaseURL()
                 .pressSigninButton()
                 .fillEmailIInput(USER_EMAIL);
 
@@ -44,7 +44,7 @@ public class GmailTests extends BaseTest {
                 .fillRecipentInput(RECIPIENT_EMAIL)
                 .fillSubjectInput(EMAIL_SUBJECT)
                 .fillBodyInput(EMAIL_BODY)
-                .saveAndCloseButton()
+                .saveAndCloseEmail()
                 .clickOnDraftsLink();
 
 
@@ -59,9 +59,9 @@ public class GmailTests extends BaseTest {
         log.info("Verify that email is appeared in sent folder");
         Assert.assertTrue(gmailMainPage.isEmailAppearedInSentFolder(EMAIL_BODY));
 
-        log.info("Verify that email disppeared from Drafts folder");
-        gmailMainPage.clickOnDraftsLink()
-                .openDraftEmail();
+        log.info("Verify that email disappeared from Drafts folder");
+        Assert.assertFalse(gmailMainPage.isEmailDisappearedFromDrafts(EMAIL_BODY));
+        gmailMainPage.clickOnDraftsLink();
 
 
         log.info("Log out from user`s account");
@@ -69,6 +69,5 @@ public class GmailTests extends BaseTest {
 
                 .clickOnImageButton()
                 .clickOnSignOutButton();
-
     }
 }
